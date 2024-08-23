@@ -1,9 +1,8 @@
 package com.example.nebula.Controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.nebula.Service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,15 +11,30 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
+    private ProductService  productService;
+
+    @Autowired
+    public ProductController(ProductService productService){
+        this.productService = productService;
+    }
 
     @GetMapping("/{id}")
     public String getProdById(@PathVariable("id") Long id) {
-        return "get product by id: " + id;
+        return productService.getProdById(id);
     }
 
     @GetMapping()
     public List<String> getAllProducts() {
-        return Collections.emptyList();
+        return productService.getAllProducts();
+    }
+
+    public void delProductById(Long id){
+        productService.delProductById(id);
+    }
+
+    @PostMapping("/")
+    public void addProduct(List<String> item){
+        productService.addProduct(item);
     }
 
 }

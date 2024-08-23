@@ -1,4 +1,4 @@
-package Models;
+package com.example.nebula.Models;
 
 import lombok.Getter;
 import lombok.Setter;

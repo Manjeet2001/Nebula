@@ -1,11 +1,11 @@
-package Models;
+package com.example.nebula.Models;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Products extends BaseModel{
+public class Products extends BaseModel {
     private Long id;
     private String title;
     private String desc;

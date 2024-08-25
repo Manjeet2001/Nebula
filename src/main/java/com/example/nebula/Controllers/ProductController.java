@@ -2,6 +2,7 @@ package com.example.nebula.Controllers;
 
 import com.example.nebula.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -14,7 +15,7 @@ public class ProductController {
     private ProductService  productService;
 
     @Autowired
-    public ProductController(ProductService productService){
+    public ProductController(@Qualifier("/fakeprod") ProductService productService){
         this.productService = productService;
     }
 

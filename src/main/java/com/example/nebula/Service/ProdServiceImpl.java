@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("/prod")
 public class ProdServiceImpl implements ProductService {
     @Override
     public String getProdById(Long id) {

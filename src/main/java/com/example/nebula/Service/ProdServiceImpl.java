@@ -1,5 +1,6 @@
 package com.example.nebula.Service;
 
+import com.example.nebula.Models.Products;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 @Service("/prod")
 public class ProdServiceImpl implements ProductService {
     @Override
-    public String getProdById(Long id) {
-        return "get product with id: " + id;
+    public Products getProdById(Long id) {
+        return null;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.example.nebula.Service;
 
+import com.example.nebula.Models.Category;
+import com.example.nebula.Models.Products;
+import com.example.nebula.dtos.FakeStoreProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +23,10 @@ public class FakeStoreProdService implements ProductService {
         this.restTemplateBuilder = restTemplateBuilder;
     }
     @Override
-    public String getProdById(Long id) {
+    public Products getProdById(Long id) {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<String> responseEntity =  restTemplate.getForEntity(getProductURL, String.class);
-        return "product fetched from fake store : " + responseEntity.toString();
+        ResponseEntity<FakeStoreProductDto> responseEntity =  restTemplate.getForEntity(getProductURL, FakeStoreProductDto.class);
+        return getProductfromfakestoreDto(responseEntity.getBody());
     }
 
     @Override
@@ -44,5 +47,18 @@ public class FakeStoreProdService implements ProductService {
     @Override
     public void updateProdById(Long id) {
 
+    }
+
+    private Products getProductfromfakestoreDto(FakeStoreProductDto fakeStoreProductDto) {
+        Products products = new Products();
+        products.setId(fakeStoreProductDto.getId());
+        products.setTitle(fakeStoreProductDto.getTitle());
+        products.setDesc(fakeStoreProductDto.getDescription());
+        products.setPrice(fakeStoreProductDto.getPrice());
+        Category category = new Category();
+        category.setName(fakeStoreProductDto.getCategory());
+        products.setCategory(category);
+
+        return products;
     }
 }

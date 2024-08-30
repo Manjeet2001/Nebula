@@ -1,9 +1,11 @@
 package com.example.nebula.Service;
 
+import com.example.nebula.Models.Products;
+
 import java.util.List;
 
 public interface ProductService {
-    String getProdById(Long id);
+    Products getProdById(Long id);
 
     List<String> getAllProducts();
 

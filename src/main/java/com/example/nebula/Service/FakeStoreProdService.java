@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("/fakeprod")
@@ -17,6 +19,8 @@ public class FakeStoreProdService implements ProductService {
     private RestTemplateBuilder restTemplateBuilder;
 
     private String getProductURL = "https://fakestoreapi.com/products/1";
+
+    private String getAllProductsURL = "https://fakestoreapi.com/products";
 
     @Autowired
     public FakeStoreProdService(RestTemplateBuilder restTemplateBuilder){
@@ -30,8 +34,14 @@ public class FakeStoreProdService implements ProductService {
     }
 
     @Override
-    public List<String> getAllProducts() {
-        return List.of();
+    public List<Products> getAllProducts() {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity(getAllProductsURL, FakeStoreProductDto[].class);
+        List<Products> productsList = new LinkedList<>();
+        for (FakeStoreProductDto dto : responseEntity.getBody()) {
+            productsList.add(getProductfromfakestoreDto(dto));
+        }
+        return productsList;
     }
 
     @Override

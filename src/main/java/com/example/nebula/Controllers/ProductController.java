@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<String> getAllProducts() {
+    public List<Products> getAllProducts() {
         return productService.getAllProducts();
     }
 

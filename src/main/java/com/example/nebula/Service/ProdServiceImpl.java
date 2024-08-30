@@ -13,7 +13,7 @@ public class ProdServiceImpl implements ProductService {
     }
 
     @Override
-    public List<String> getAllProducts() {
+    public List<Products> getAllProducts() {
         return List.of();
     }
 

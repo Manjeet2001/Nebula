@@ -1,5 +1,6 @@
 package com.example.nebula.Service;
 
+import com.example.nebula.Exceptions.ProductNotFoundException;
 import com.example.nebula.Models.Category;
 import com.example.nebula.Models.Products;
 import com.example.nebula.dtos.FakeStoreProductDto;
@@ -18,7 +19,7 @@ public class FakeStoreProdService implements ProductService {
 
     private RestTemplateBuilder restTemplateBuilder;
 
-    private String getProductURL = "https://fakestoreapi.com/products/1";
+    private String getProductURL = "https://fakestoreapi.com/products/{id}";
 
     private String getAllProductsURL = "https://fakestoreapi.com/products";
 
@@ -27,9 +28,13 @@ public class FakeStoreProdService implements ProductService {
         this.restTemplateBuilder = restTemplateBuilder;
     }
     @Override
-    public Products getProdById(Long id) {
+    public Products getProdById(Long id) throws ProductNotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> responseEntity =  restTemplate.getForEntity(getProductURL, FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreProductDto> responseEntity =  restTemplate.getForEntity(getProductURL, FakeStoreProductDto.class, id);
+
+        if(responseEntity.getBody() == null){
+            throw new ProductNotFoundException("Product not found for id: " + id);
+        }
         return getProductfromfakestoreDto(responseEntity.getBody());
     }
 

@@ -1,11 +1,12 @@
 package com.example.nebula.Service;
 
+import com.example.nebula.Exceptions.ProductNotFoundException;
 import com.example.nebula.Models.Products;
 
 import java.util.List;
 
 public interface ProductService {
-    Products getProdById(Long id);
+    Products getProdById(Long id) throws ProductNotFoundException;
 
     List<Products> getAllProducts();
 

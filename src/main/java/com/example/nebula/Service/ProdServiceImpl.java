@@ -23,8 +23,8 @@ public class ProdServiceImpl implements ProductService {
     }
 
     @Override
-    public void addProduct(List<String> item) {
-
+    public Products addProduct(Products products) {
+        return null;
     }
 
     @Override

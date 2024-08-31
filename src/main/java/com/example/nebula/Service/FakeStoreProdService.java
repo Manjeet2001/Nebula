@@ -21,7 +21,7 @@ public class FakeStoreProdService implements ProductService {
 
     private String getProductURL = "https://fakestoreapi.com/products/{id}";
 
-    private String getAllProductsURL = "https://fakestoreapi.com/products";
+    private String genericProductsURL = "https://fakestoreapi.com/products";
 
     @Autowired
     public FakeStoreProdService(RestTemplateBuilder restTemplateBuilder){
@@ -41,7 +41,7 @@ public class FakeStoreProdService implements ProductService {
     @Override
     public List<Products> getAllProducts() {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity(getAllProductsURL, FakeStoreProductDto[].class);
+        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity(genericProductsURL, FakeStoreProductDto[].class);
         List<Products> productsList = new LinkedList<>();
         for (FakeStoreProductDto dto : responseEntity.getBody()) {
             productsList.add(getProductfromfakestoreDto(dto));
@@ -55,9 +55,13 @@ public class FakeStoreProdService implements ProductService {
     }
 
     @Override
-    public void addProduct(List<String> item) {
-
+    public Products addProduct(Products products) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.postForEntity(genericProductsURL,
+                getFakeStoreProductFromProduct(products), FakeStoreProductDto.class);
+        return getProductfromfakestoreDto(responseEntity.getBody());
     }
+
 
     @Override
     public void updateProdById(Long id) {
@@ -75,5 +79,15 @@ public class FakeStoreProdService implements ProductService {
         products.setCategory(category);
 
         return products;
+    }
+
+    private FakeStoreProductDto getFakeStoreProductFromProduct(Products products) {
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setTitle(products.getTitle());
+        fakeStoreProductDto.setCategory(products.getCategory().getName());
+        fakeStoreProductDto.setPrice(products.getPrice());
+        fakeStoreProductDto.setDescription(products.getDesc());
+
+        return fakeStoreProductDto;
     }
 }

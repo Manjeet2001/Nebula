@@ -37,9 +37,9 @@ public class ProductController {
         productService.delProductById(id);
     }
 
-    @PostMapping("/")
-    public void addProduct(List<String> item){
-        productService.addProduct(item);
+    @PostMapping
+    public Products createProduct(@RequestBody Products products){
+        return productService.addProduct(products);
     }
 
 

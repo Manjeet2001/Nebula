@@ -33,8 +33,8 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @DeleteMapping("/{id}")
-    public void delProductById(@PathVariable Long id){
-        productService.delProductById(id);
+    public Products delProductById(@PathVariable Long id) throws ProductNotFoundException {
+        return productService.deleteProductById(id);
     }
 
     @PostMapping

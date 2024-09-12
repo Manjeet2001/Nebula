@@ -19,7 +19,7 @@ public class ProductController {
     private ProductService  productService;
 
     @Autowired
-    public ProductController(@Qualifier("/fakeprod") ProductService productService){
+    public ProductController(@Qualifier("/selfproduct") ProductService productService){
         this.productService = productService;
     }
 
@@ -40,6 +40,11 @@ public class ProductController {
     @PostMapping
     public Products createProduct(@RequestBody Products products){
         return productService.addProduct(products);
+    }
+
+    @PostMapping("/{id}")
+    public void updateProduct(@PathVariable Long id, @RequestBody Products products) throws ProductNotFoundException {
+        productService.updateProdById(id, products);
     }
 
 

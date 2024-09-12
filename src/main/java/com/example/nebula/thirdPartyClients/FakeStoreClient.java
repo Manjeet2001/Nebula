@@ -1,7 +1,6 @@
 package com.example.nebula.thirdPartyClients;
 
 import com.example.nebula.Exceptions.ProductNotFoundException;
-import com.example.nebula.Models.Category;
 import com.example.nebula.Models.Products;
 import com.example.nebula.dtos.FakeStoreProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Component
 public class FakeStoreClient {
@@ -64,7 +60,24 @@ public class FakeStoreClient {
         return responseEntity.getBody();
     }
 
-    public void updateProdById(Long id) {
+    public FakeStoreProductDto updateProdById(Long id, FakeStoreProductDto fakeStoreProductDto) throws ProductNotFoundException {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity(getProductURL, FakeStoreProductDto.class, id);
+        if (responseEntity.getBody() != null) {
+            if (fakeStoreProductDto.getTitle() != null)
+                responseEntity.getBody().setTitle(fakeStoreProductDto.getTitle());
+            if (fakeStoreProductDto.getDescription() != null)
+                responseEntity.getBody().setDescription(fakeStoreProductDto.getDescription());
+            if (fakeStoreProductDto.getPrice() != null)
+                responseEntity.getBody().setPrice(fakeStoreProductDto.getPrice());
+            if (fakeStoreProductDto.getCategory() != null)
+                responseEntity.getBody().setCategory(fakeStoreProductDto.getCategory());
+            restTemplate.put(getProductURL, fakeStoreProductDto, id);
+            //System.out.println("product updated");
+        } else {
+            throw new ProductNotFoundException("product with id: " + id + " not found");
+        }
+        return fakeStoreProductDto;
     }
 
 }

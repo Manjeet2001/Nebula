@@ -53,15 +53,15 @@ public class FakeStoreProdService implements ProductService {
 
 
     @Override
-    public void updateProdById(Long id) {
-
+    public void updateProdById(Long id, Products products) throws ProductNotFoundException {
+        fakeStoreClient.updateProdById(id, getFakeStoreProductFromProduct(products));
     }
 
     private Products getProductfromfakestoreDto(FakeStoreProductDto fakeStoreProductDto) {
         Products products = new Products();
         products.setId(fakeStoreProductDto.getId());
         products.setTitle(fakeStoreProductDto.getTitle());
-        products.setDesc(fakeStoreProductDto.getDescription());
+        products.setDescription(fakeStoreProductDto.getDescription());
         products.setPrice(fakeStoreProductDto.getPrice());
         Category category = new Category();
         category.setName(fakeStoreProductDto.getCategory());
@@ -75,7 +75,7 @@ public class FakeStoreProdService implements ProductService {
         fakeStoreProductDto.setTitle(products.getTitle());
         fakeStoreProductDto.setCategory(products.getCategory().getName());
         fakeStoreProductDto.setPrice(products.getPrice());
-        fakeStoreProductDto.setDescription(products.getDesc());
+        fakeStoreProductDto.setDescription(products.getDescription());
 
         return fakeStoreProductDto;
     }

@@ -5,11 +5,13 @@ import com.example.nebula.Models.Category;
 import com.example.nebula.Models.Products;
 import com.example.nebula.Repos.CategoryRepo;
 import com.example.nebula.Repos.ProductRepo;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Primary
 @Service("/selfproduct")
 public class ProdServiceImpl implements ProductService {
 

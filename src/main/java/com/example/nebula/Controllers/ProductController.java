@@ -1,6 +1,7 @@
 package com.example.nebula.Controllers;
 
 import com.example.nebula.Exceptions.ProductNotFoundException;
+import com.example.nebula.Kafka.Producer.ProductEventProducer;
 import com.example.nebula.Models.Products;
 import com.example.nebula.Service.ProductService;
 import com.example.nebula.dtos.ExceptionDto;
@@ -23,6 +24,9 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @Autowired
+    private ProductEventProducer productEventProducer;
+
     @GetMapping("/{id}")
     public Products getProdById(@PathVariable("id") Long id) throws ProductNotFoundException {
         return productService.getProdById(id);
@@ -39,6 +43,7 @@ public class ProductController {
 
     @PostMapping
     public Products createProduct(@RequestBody Products products){
+        productEventProducer.send(products);
         return productService.addProduct(products);
     }
 
@@ -46,6 +51,5 @@ public class ProductController {
     public void updateProduct(@PathVariable Long id, @RequestBody Products products) throws ProductNotFoundException {
         productService.updateProdById(id, products);
     }
-
 
 }

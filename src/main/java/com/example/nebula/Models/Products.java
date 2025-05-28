@@ -1,7 +1,6 @@
 package com.example.nebula.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Products extends BaseModel {
-    private Long id;
     private String title;
     private String description;
     private Long price;

@@ -17,10 +17,10 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductService  productService;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(@Qualifier("/selfproduct") ProductService productService){
+    public ProductController(@Qualifier("/selfproduct") ProductService productService) {
         this.productService = productService;
     }
 
@@ -32,17 +32,18 @@ public class ProductController {
         return productService.getProdById(id);
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public List<Products> getAllProducts() {
         return productService.getAllProducts();
     }
+
     @DeleteMapping("/{id}")
     public Products delProductById(@PathVariable Long id) throws ProductNotFoundException {
         return productService.deleteProductById(id);
     }
 
-    @PostMapping
-    public Products createProduct(@RequestBody Products products){
+    @PostMapping("/")
+    public Products createProduct(@RequestBody Products products) {
         productEventProducer.send(products);
         return productService.addProduct(products);
     }
